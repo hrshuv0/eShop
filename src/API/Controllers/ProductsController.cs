@@ -30,6 +30,22 @@ public class ProductsController : ControllerBase
         
         return Ok(product);
     }
+    
+    [HttpGet("brands")]
+    public async Task<IActionResult> GetProductBrands()
+    {
+        var products = await _productRepository.GetProductBrandsAsync();
+        
+        return Ok(products);
+    }
+    
+    [HttpGet("types")]
+    public async Task<IActionResult> GetProductTypes()
+    {
+        var products = await _productRepository.GetProductTypesAsync();
+        
+        return Ok(products);
+    }
 
     
 } 

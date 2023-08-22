@@ -16,14 +16,34 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetProductByIdAsync(long id)
     {
-        var result = await _context.Products!.FindAsync(id);
+        var result = await _context.Products!
+            .Include(p => p.ProductType)
+            .Include(p => p.ProductBrand)
+            .FirstOrDefaultAsync(p => p.Id == id);
         
         return result!;
     }
 
     public async Task<IReadOnlyList<Product>> GetProductsAsync()
     {
-        var result = await _context.Products!.ToListAsync();
+        var result = await _context.Products!
+            .Include(p => p.ProductType)
+            .Include(p => p.ProductBrand)
+            .ToListAsync();
+
+        return result;
+    }
+
+    public async Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync()
+    {
+        var result = await _context.ProductBrands!.ToListAsync();
+
+        return result;
+    }
+
+    public async Task<IReadOnlyList<ProductType>> GetProductTypesAsync()
+    {
+        var result = await _context.ProductTypes!.ToListAsync();
 
         return result;
     }
