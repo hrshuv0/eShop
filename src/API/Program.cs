@@ -1,8 +1,6 @@
 using API.Extensions;
 using Core.Interfaces;
-using Infrastructure.Data;
 using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +12,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
 await builder.Services.AddApplicationServices(builder.Configuration);
 
