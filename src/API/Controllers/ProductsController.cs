@@ -1,3 +1,5 @@
+using API.Dtos;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -12,12 +14,14 @@ public class ProductsController : ControllerBase
     private readonly IBaseRepository<Product> _productRepo;
     private readonly IBaseRepository<ProductType> _productTypeRepo;
     private readonly IBaseRepository<ProductBrand> _productBrandRepo;
+    private readonly IMapper _mapper;
 
-    public ProductsController(IBaseRepository<Product> productRepository, IBaseRepository<ProductType> productTypeRepo, IBaseRepository<ProductBrand> productBrandRepo)
+    public ProductsController(IBaseRepository<Product> productRepository, IBaseRepository<ProductType> productTypeRepo, IBaseRepository<ProductBrand> productBrandRepo, IMapper mapper)
     {
         _productRepo = productRepository;
         _productTypeRepo = productTypeRepo;
         _productBrandRepo = productBrandRepo;
+        _mapper = mapper;
     }
 
 
@@ -27,7 +31,9 @@ public class ProductsController : ControllerBase
         var spec = new ProductsWithTypesAndBrandSpecification();
         var products = await _productRepo.ListAsync(spec);
         
-        return Ok(products);
+        var productsToReturn = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+        
+        return Ok(productsToReturn);
     }
     
     [HttpGet("{id:long}")]
@@ -36,7 +42,9 @@ public class ProductsController : ControllerBase
         var spec = new ProductsWithTypesAndBrandSpecification(id);
         var product = await _productRepo.GetEntityWithSpec(spec);
         
-        return Ok(product);
+        var productToReturn = _mapper.Map<Product, ProductToReturnDto>(product);
+        
+        return Ok(productToReturn);
     }
     
     [HttpGet("brands")]
