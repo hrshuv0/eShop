@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-builder.Services.AddApplicationServices(builder.Configuration);
+await builder.Services.AddApplicationServices(builder.Configuration);
 
 
 var app = builder.Build();

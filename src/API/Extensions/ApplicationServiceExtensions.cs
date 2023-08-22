@@ -5,7 +5,7 @@ namespace API.Extensions;
 
 public static class ApplicationServiceExtensions
 {
-    public static void AddApplicationServices(this IServiceCollection services, IConfiguration config)
+    public static async Task AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
         var loggerFactory = services.BuildServiceProvider().GetRequiredService<ILoggerFactory>();
         services.AddDbContext<StoreContext>(options =>
@@ -20,7 +20,8 @@ public static class ApplicationServiceExtensions
         try
         {
             var context = services.BuildServiceProvider().GetRequiredService<StoreContext>();
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
+            await StoreContextSeed.SeedAsync(context, loggerFactory);
         }
         catch (Exception e)
         {
