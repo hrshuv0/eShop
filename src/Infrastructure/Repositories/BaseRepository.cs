@@ -58,6 +58,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         return result;
     }
 
+    public async Task<int> CountAsync(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).CountAsync();
+    }
+
     #region Private Methods
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {
