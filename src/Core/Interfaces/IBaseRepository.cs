@@ -11,7 +11,7 @@ public interface IBaseRepository<T> where T : BaseEntity
     Task UpdateAsync(T entity);
     Task DeleteAsync(T entity);
     
-    Task<T> GetEntityWithSpec(ISpecification<T> spec);
+    Task<T?> GetEntityWithSpec(ISpecification<T> spec);
     Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
     
 }
