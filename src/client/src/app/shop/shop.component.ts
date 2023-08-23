@@ -66,8 +66,8 @@ export class ShopComponent implements OnInit{
     this.getProducts();
   }
 
-  onSortSelected(event: any){
-    this.sortSelected = event.target.value;
+  onSortSelected(sort: string){
+    this.sortSelected = sort;
     this.getProducts();
   }
 
