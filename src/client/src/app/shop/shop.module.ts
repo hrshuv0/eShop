@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ShopComponent } from './shop.component';
 import { ProductItemComponent } from './product-item/product-item.component';
+import { SharedModule } from "../shared/shared.module";
 
 
 
@@ -12,7 +13,7 @@ import { ProductItemComponent } from './product-item/product-item.component';
   ],
   imports: [
     CommonModule,
-    NgOptimizedImage
+    SharedModule
   ],
   exports:[
     ShopComponent
