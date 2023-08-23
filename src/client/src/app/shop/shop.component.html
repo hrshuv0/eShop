@@ -48,9 +48,9 @@
         ></app-paging-header>
 
         <div class="mt-2">
-          <input class="form-control  float-start my-2" style="width: 300px" placeholder="Search" type="text">
-          <button class="btn btn-outline-primary my-2 mx-2">Search</button>
-          <button class="btn btn-outline-success my-2">Reset</button>
+          <input class="form-control  float-start my-2" (keyup.enter)="onSearch()" #search style="width: 300px" placeholder="Search" type="text">
+          <button class="btn btn-outline-primary my-2 mx-2" (click)="onSearch()">Search</button>
+          <button class="btn btn-outline-success my-2" (click)="onReset()">Reset</button>
 
         </div>
       </div>
