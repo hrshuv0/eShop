@@ -354,3 +354,7 @@ MigrationBackup/
 *.ipr
 *.iws
 out/
+
+# SSL
+**/ssl
+
