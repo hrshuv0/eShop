@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md bg-light">
   <div class="container-fluid d-flex justify-content-between align-items-center">
     <div>
-      <img src="../../../assets/images/logo.png" alt="logo">
+      <img src="../../../assets/images/logo.png" alt="logo" [routerLink]="['/']">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -11,13 +11,13 @@
     <div class="align-items-center" id="navbarNavDropdown">
       <ul class="navbar-nav text-uppercase">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" [routerLink]="['/']" routerLinkActive="routerLinkActive">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Shop</a>
+          <a class="nav-link" [routerLink]="['/shop']" routerLinkActive="routerLinkActive">Shop</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" [routerLink]="['/']" routerLinkActive="routerLinkActive">Contact</a>
         </li>
       </ul>
     </div>
