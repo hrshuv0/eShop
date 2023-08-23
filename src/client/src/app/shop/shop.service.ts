@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {IPagination} from "../_models/pagination";
-import {IBrand} from "../_models/brand";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { IPagination } from "../_models/pagination";
+import { IBrand } from "../_models/brand";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,21 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(){
-    console.log('base url: ', this.baseUrl + 'products');
-    return this.http.get<IPagination>(this.baseUrl + 'products');
+  getProducts(brandId?: number, typeId?: number){
+    let params = new HttpParams();
+    if(brandId){
+      params = params.append('brandId', brandId.toString());
+    }
+    if(typeId){
+      params = params.append('typeId', typeId.toString());
+    }
+
+    return this.http.get<IPagination>(this.baseUrl + 'products', {observe: 'response', params})
+      .pipe(
+        map(response => {
+          return response.body;
+        }
+      ));
   }
 
   getBrands(){
@@ -22,6 +35,6 @@ export class ShopService {
   }
 
   getTypes(){
-    return this.http.get<IBrand[]>(this.baseUrl + 'products/brands');
+    return this.http.get<IBrand[]>(this.baseUrl + 'products/types');
   }
 }
