@@ -18,7 +18,7 @@ public static class ApplicationServiceExtensions
         });
 
         #region Redis Db Connection
-        services.AddSingleton<ConnectionMultiplexer>(c =>
+        services.AddSingleton<IConnectionMultiplexer>(c =>
         {
             var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
             return ConnectionMultiplexer.Connect(configuration);
