@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace API.Extensions;
 
@@ -15,6 +16,14 @@ public static class ApplicationServiceExtensions
                 .EnableSensitiveDataLogging()
                 .UseLoggerFactory(loggerFactory);
         });
+
+        #region Redis Db Connection
+        services.AddSingleton<ConnectionMultiplexer>(c =>
+        {
+            var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
+            return ConnectionMultiplexer.Connect(configuration);
+        });
+        #endregion
 
 
         try
