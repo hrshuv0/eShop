@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {BreadcrumbService} from "xng-breadcrumb";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-section-header',
   templateUrl: './section-header.component.html',
   styleUrls: ['./section-header.component.scss']
 })
-export class SectionHeaderComponent {
+export class SectionHeaderComponent implements OnInit{
+  breadCrumb$: Observable<any[]>;
+
+  constructor(private bcService: BreadcrumbService) {
+  }
+  ngOnInit(): void {
+    this.breadCrumb$ = this.bcService.breadcrumbs$;
+  }
+
+  ngOnDestroy(): void {
+  }
 
 }
