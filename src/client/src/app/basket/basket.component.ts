@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BasketService} from "./basket.service";
+import {IBasketItem} from "../_models/basket";
 
 @Component({
   selector: 'app-basket',
@@ -14,5 +15,26 @@ export class BasketComponent implements OnInit{
   ngOnInit(): void {
     this.basket$ = this.basketService.basket$;
   }
+
+  incrementItemQuantity(item: IBasketItem){
+    this.basketService.incrementItemQuantity(item);
+  }
+
+  decrementItemQuantity(item: IBasketItem){
+    this.basketService.decrementItemQuantity(item);
+  }
+
+  removeBasketItem(item: IBasketItem){
+    this.basketService.removeItemFromBasket(item);
+  }
+
+
+
+
+
+
+
+
+
 
 }
