@@ -24,6 +24,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 #region Extensiions
 await builder.Services.AddApplicationServices(builder.Configuration);
+await builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddConfigureServices(builder.Configuration);
 
 #endregion
