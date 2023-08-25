@@ -20,7 +20,15 @@ public static class IdentityServiceExtensions
             options.UseSqlServer(identityConnectionString);
         });
         
-        var builder = services.AddIdentityCore<AppUser>();
+        var builder = services.AddIdentityCore<AppUser>(opt =>
+        {
+            opt.Password.RequireNonAlphanumeric = false;
+            opt.Password.RequireDigit = false;
+            opt.Password.RequireUppercase = false;
+            opt.Password.RequireLowercase = false;
+            opt.Password.RequiredLength = 4;
+            opt.Password.RequiredUniqueChars = 0;
+        });
         
         builder = new IdentityBuilder(builder.UserType, builder.Services);
         builder.AddEntityFrameworkStores<AppIdentityDbContext>();
