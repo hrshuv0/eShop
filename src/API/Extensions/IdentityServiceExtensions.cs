@@ -13,26 +13,31 @@ public static class IdentityServiceExtensions
     public static async Task AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
         var loggerFactory = services.BuildServiceProvider().GetRequiredService<ILoggerFactory>();
+
+        var identityConnectionString = config.GetConnectionString("IdentityConnection");
         services.AddDbContext<AppIdentityDbContext>(options =>
         {
-            options.UseSqlServer(config.GetConnectionString("IdentityConnection"))
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging()
-                .UseLoggerFactory(loggerFactory);
+            options.UseSqlServer(identityConnectionString);
         });
+        
+        var builder = services.AddIdentityCore<AppUser>();
+        
+        builder = new IdentityBuilder(builder.UserType, builder.Services);
+        builder.AddEntityFrameworkStores<AppIdentityDbContext>();
+        builder.AddSignInManager<SignInManager<AppUser>>();
 
-        services.AddIdentity<AppUser, IdentityRole>(opt =>
-        {
-            opt.Password.RequireNonAlphanumeric = false;
-            opt.Password.RequireDigit = false;
-            opt.Password.RequireUppercase = false;
-            opt.Password.RequireLowercase = false;
-            opt.Password.RequiredLength = 4;
-            opt.Password.RequiredUniqueChars = 0;
-            
-        })
-            .AddEntityFrameworkStores<AppIdentityDbContext>()
-            .AddDefaultTokenProviders();
+        // services.AddIdentity<AppUser, IdentityRole>(opt =>
+        // {
+        //     opt.Password.RequireNonAlphanumeric = false;
+        //     opt.Password.RequireDigit = false;
+        //     opt.Password.RequireUppercase = false;
+        //     opt.Password.RequireLowercase = false;
+        //     opt.Password.RequiredLength = 4;
+        //     opt.Password.RequiredUniqueChars = 0;
+        //     
+        // })
+        //     .AddEntityFrameworkStores<AppIdentityDbContext>()
+        //     .AddDefaultTokenProviders();
         
         
             
@@ -44,7 +49,8 @@ public static class IdentityServiceExtensions
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
                     ValidIssuer = config["Token:Issuer"],
-                    ValidateIssuer = true
+                    ValidateIssuer = true,
+                    ValidateAudience = false
                 };
             });
 
@@ -54,7 +60,6 @@ public static class IdentityServiceExtensions
             await context.Database.MigrateAsync();
             
             var userManager = services.BuildServiceProvider().GetRequiredService<UserManager<AppUser>>();
-            var signInManager = services.BuildServiceProvider().GetRequiredService<SignInManager<AppUser>>();
 
             await AppIdentityDbContextSeed.SeedUserAsync(userManager);
         }

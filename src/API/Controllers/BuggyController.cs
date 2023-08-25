@@ -1,5 +1,6 @@
 ﻿using API.Errors;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -12,6 +13,15 @@ public class BuggyController : BaseApiController
     {
         _context = context;
     }
+    
+    [HttpGet("testauth")]
+    [Authorize]
+    public ActionResult<string> GetSecretText()
+    {
+        return "secret stuff";
+    }
+    
+    
 
     [HttpGet("notfound")]
     public ActionResult<string> GetNotFoundRequest()
@@ -43,7 +53,7 @@ public class BuggyController : BaseApiController
     [HttpGet("badrequest/{id}")]
     public ActionResult<string> GetBadRequest(long id)
     {
-        return Ok();
+        return Ok(new ApiResponse(400));
     }
     
 }
