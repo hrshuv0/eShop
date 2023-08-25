@@ -1,17 +1,35 @@
-using API.Errors;
 using API.Extensions;
 using API.Helpers;
 using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo{Title = "SkiNet API", Version = "v1"});
+    var securityScheme = new OpenApiSecurityScheme()
+    {
+        Description = "JWT Auth Bearer Scheme",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference()
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    var securityRequirement = new OpenApiSecurityRequirement() { { securityScheme, new[] { "Bearer" } } };
+    c.AddSecurityRequirement(securityRequirement);
+});
 
 builder.Services.AddControllers();
 
