@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment.development";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { IUser } from "../_models/user";
-import { BehaviorSubject, map } from "rxjs";
+import {BehaviorSubject, map, of} from "rxjs";
 import { Router } from "@angular/router";
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AccountService {
   loadCurrentUser(token: string) {
     if (token === null) {
       this.currentUserSource.next(null);
-      return;
+      return of(null);
     }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
@@ -54,6 +54,7 @@ export class AccountService {
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('token', user.token); // set the token
           this.currentUserSource.next(user); // set the current user
         }
       })
