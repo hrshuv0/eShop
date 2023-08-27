@@ -1,6 +1,7 @@
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications;
 
 namespace Infrastructure.Services;
 
@@ -53,18 +54,24 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+    public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
     {
-        throw new NotImplementedException();
+        var spec = new OrdersWithItemsAndOrderingSpecification(buyerEmail);
+
+        return await _unitOfWork.Repository<Order>().ListAsync(spec);
     }
 
-    public Task<Order> GetOrderByIdAsync(long id, string buyerEmail)
+    public async Task<Order> GetOrderByIdAsync(long id, string buyerEmail)
     {
-        throw new NotImplementedException();
+        var spec = new OrdersWithItemsAndOrderingSpecification(id, buyerEmail);
+
+        var result = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+        return result!;
     }
 
-    public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+    public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
     {
-        throw new NotImplementedException();
+        return await _unitOfWork.Repository<DeliveryMethod>().LoadAsync();
     }
 }
