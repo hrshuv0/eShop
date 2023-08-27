@@ -41,6 +41,9 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+
 #endregion
 
 #region Extensiions
