@@ -41,9 +41,9 @@ public class OrderController : BaseApiController
         
         var orders = await _orderService.GetOrdersForUserAsync(email);
         
-        // var result = _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(orders);
+        var result = _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(orders);
         
-        return Ok(orders);
+        return Ok(result);
     }
     
     [HttpGet("{id}")]
@@ -54,9 +54,9 @@ public class OrderController : BaseApiController
         var order = await _orderService.GetOrderByIdAsync(id, email);
         if (order is null) return NotFound(new ApiResponse(404));
         
-        // var result = _mapper.Map<Order, OrderToReturnDto>(order);
+        var result = _mapper.Map<Order, OrderToReturnDto>(order);
         
-        return Ok(order);
+        return Ok(result);
     }
     
     [HttpGet("deliveryMethods")]
