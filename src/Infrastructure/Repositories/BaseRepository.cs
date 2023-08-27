@@ -30,22 +30,23 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         return result;
     }
 
-    public Task<T> AddAsync(T entity)
+    public void AddAsync(T entity)
     {
-        throw new NotImplementedException();
+        _context.Set<T>().Add(entity);
     }
 
-    public Task UpdateAsync(T entity)
+    public void UpdateAsync(T entity)
     {
-        throw new NotImplementedException();
+        _context.Set<T>().Attach(entity);
+        _context.Entry(entity).State = EntityState.Modified;
     }
 
-    public Task DeleteAsync(T entity)
+    public void DeleteAsync(T entity)
     {
-        throw new NotImplementedException();
+        _context.Set<T>().Remove(entity);
     }
 
-    public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
+    public async Task<T?> GetEntityWithSpec(ISpecification<T> spec)
     {
         var result =  await ApplySpecification(spec).FirstOrDefaultAsync();
         return result!;
