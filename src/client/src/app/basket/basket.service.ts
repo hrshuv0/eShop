@@ -123,7 +123,6 @@ export class BasketService {
 
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number) {
 
-    console.log(items);
     const index = items.findIndex(i => i.id === itemToAdd.id);
     if(index === -1){
       itemToAdd.quantity = quantity;
