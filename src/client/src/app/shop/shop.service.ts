@@ -5,12 +5,13 @@ import { IBrand } from "../_models/brand";
 import { map, of } from "rxjs";
 import { ShopParams } from "../_models/shop-params";
 import { IProduct } from "../_models/product";
+import {environment} from "../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl:string = 'https://localhost:5001/api/';
+  baseUrl:string = environment.apiUrl;
   products: IProduct[] = [];
   brands: IBrand[] = [];
   types: IBrand[] = [];
