@@ -25,6 +25,7 @@ public class ProductsController : BaseApiController
     }
 
 
+    [Cashed(600)]
     [HttpGet]
     public async Task<IActionResult> GetProducts([FromQuery]ProductSpecParams productParams)
     {
@@ -39,6 +40,7 @@ public class ProductsController : BaseApiController
         return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, productsToReturn));
     }
     
+    [Cashed(600)]
     [HttpGet("{id:long}")]
     // [ProducesResponseType(StatusCodes.Status200OK)]
     // [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -55,6 +57,7 @@ public class ProductsController : BaseApiController
         return Ok(productToReturn);
     }
     
+    [Cashed(600)]
     [HttpGet("brands")]
     public async Task<IActionResult> GetProductBrands()
     {
@@ -63,6 +66,7 @@ public class ProductsController : BaseApiController
         return Ok(products);
     }
     
+    [Cashed(600)]
     [HttpGet("types")]
     public async Task<IActionResult> GetProductTypes()
     {
