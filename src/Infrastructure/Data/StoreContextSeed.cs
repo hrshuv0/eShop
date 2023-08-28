@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Reflection;
+using System.Text.Json;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
@@ -11,9 +12,11 @@ public class StoreContextSeed
     {
         try
         {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            
             if (!context.ProductBrands!.Any())
             {
-                var brandsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/brands.json");
+                var brandsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/brands.json");
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
                 foreach (var item in brands!)
@@ -25,7 +28,7 @@ public class StoreContextSeed
             }
             if (!context.ProductTypes!.Any())
             {
-                var typesData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/types.json");
+                var typesData = await File.ReadAllTextAsync(path + @"/Data/SeedData/types.json");
                 var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
 
                 foreach (var item in types!)
@@ -37,7 +40,7 @@ public class StoreContextSeed
             }
             if (!context.Products!.Any())
             {
-                var productsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");
+                var productsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
                 foreach (var item in products!)
@@ -50,7 +53,7 @@ public class StoreContextSeed
             
             if (!context.DeliveryMethods!.Any())
             {
-                var dmData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+                var dmData = await File.ReadAllTextAsync(path + @"/Data/SeedData/delivery.json");
                 var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
 
                 foreach (var item in methods!)
