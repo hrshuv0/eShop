@@ -17,6 +17,9 @@ export class LoadingInterceptor implements HttpInterceptor {
     if(!request.url.includes('emailexists') && !request.url.includes('orders')){
       this.busyService.busy();
     }
+    if(request.method === 'DELETE'){
+      return next.handle(request);
+    }
 
     return next.handle(request).pipe(
       delay(1000),
