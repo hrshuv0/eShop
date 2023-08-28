@@ -10,9 +10,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("Product");
         builder.Property(p => p.Id).IsRequired();
-        builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
-        builder.Property(p => p.Description).HasMaxLength(180);
-        builder.Property(p => p.PictureUrl).HasMaxLength(180);
+        builder.Property(p => p.Name).IsRequired();
+        builder.Property(p => p.Description);
+        builder.Property(p => p.PictureUrl);
         builder.HasOne(b => b.ProductBrand).WithMany().HasForeignKey(p => p.ProductBrandId);
         builder.HasOne(t => t.ProductType).WithMany().HasForeignKey(p => p.ProductTypeId);
     }

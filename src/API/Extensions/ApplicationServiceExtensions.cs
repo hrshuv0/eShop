@@ -11,7 +11,7 @@ public static class ApplicationServiceExtensions
         var loggerFactory = services.BuildServiceProvider().GetRequiredService<ILoggerFactory>();
         services.AddDbContext<StoreContext>(options =>
         {
-            options.UseSqlServer(config.GetConnectionString("DefaultConnection"))
+            options.UseNpgsql(config.GetConnectionString("DefaultConnection"))
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .UseLoggerFactory(loggerFactory);
